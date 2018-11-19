@@ -1,6 +1,6 @@
 package app.ytak.tasks.base.data.di
 
-import android.app.Application
+import android.content.Context
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -17,7 +17,7 @@ interface DataComponent : DataComponentModules {
     @Component.Builder
     interface Builder {
         @BindsInstance
-        fun application(application: Application): Builder
+        fun context(context: Context): Builder
 
         fun build(): DataComponent
     }

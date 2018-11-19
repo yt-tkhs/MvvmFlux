@@ -10,7 +10,7 @@ import timber.log.Timber
 
 class TasksApp : DaggerApplication() {
 
-    private val dataComponent: DataComponent by lazy { DaggerDataComponent.builder().application(this).build() }
+    private val dataComponent: DataComponent by lazy { DaggerDataComponent.builder().context(this).build() }
 
     private val appComponent: AppComponent by lazy { DaggerAppComponent.builder().dataComponent(dataComponent).build() }
 

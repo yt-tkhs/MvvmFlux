@@ -11,5 +11,5 @@ class DaoProvider @Inject constructor(
 ) {
 
     @Suppress("UNCHECKED_CAST")
-    fun <T : SqlDao<out SqlDao.Dto>> get(daoClass: Class<T>): T = daoMap[daoClass] as? T ?: throw RuntimeException()
+    fun <T : SqlDao<out SqlDao.Dto>> get(daoClass: Class<T>): T = daoMap[daoClass]?.get() as? T ?: throw RuntimeException()
 }
