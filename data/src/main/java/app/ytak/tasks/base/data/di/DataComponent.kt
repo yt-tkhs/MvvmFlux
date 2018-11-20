@@ -9,7 +9,8 @@ import javax.inject.Singleton
 @Component(
     modules = [
         DaoModule::class,
-        DatabaseModule::class
+        DatabaseModule::class,
+        DataModule::class
     ]
 )
 interface DataComponent : DataComponentModules {

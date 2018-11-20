@@ -16,8 +16,8 @@ class TaskAction @Inject constructor(private val dispatcher: TaskDispatcher) {
         // TODO: Call API
         val tasks = listOf(
             Task("0", "タスクA", "1つ目のタスクです", false),
-            Task("0", "タスクA", "1つ目のタスクです", true),
-            Task("0", "タスクA", "1つ目のタスクです", false)
+            Task("1", "タスクB", "2つ目のタスクです", true),
+            Task("2", "タスクC", "3つ目のタスクです", false)
         )
         dispatcher.taskDao.replaceAll(tasks)
     }
@@ -32,9 +32,9 @@ class TaskAction @Inject constructor(private val dispatcher: TaskDispatcher) {
         dispatcher.taskDao.delete(taskId)
     }
 
-    fun completeTask(taskId: String) = GlobalScope.launch {
+    fun updateDoneStatus(taskId: String, isDone: Boolean) = GlobalScope.launch {
         // TODO: Call API
         val task = dispatcher.taskDao.find(taskId).filterOptionalNotNull().awaitFirst()
-        dispatcher.taskDao.upsert(Task(task.id, task.title, task.description, true))
+        dispatcher.taskDao.upsert(Task(task.id, task.title, task.description, isDone))
     }
 }

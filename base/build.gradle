@@ -33,6 +33,9 @@ dependencies {
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-rx2:$coroutines_version" // For Demo
 
     // Support Library
     api "com.android.support:appcompat-v7:$support_lib_version"
@@ -46,9 +49,21 @@ dependencies {
     api "com.google.dagger:dagger-android:$dagger_version"
     api "com.google.dagger:dagger-android-support:$dagger_version"
     kapt "com.google.dagger:dagger-android-processor:$dagger_version"
+    api 'com.google.code.findbugs:jsr305:3.0.2'
 
-    // JakeWharton/timber
-    api "com.jakewharton.timber:timber:4.6.1"
+    // Rx
+    api "io.reactivex.rxjava2:rxjava:2.2.0"
+    api "io.reactivex.rxjava2:rxandroid:2.1.0"
+    api "io.reactivex.rxjava2:rxkotlin:2.2.0"
+    api "com.uber.autodispose:autodispose-ktx:$auto_dispose_version"
+    api "com.uber.autodispose:autodispose-android-ktx:$auto_dispose_version"
+    api "com.uber.autodispose:autodispose-android-archcomponents-ktx:$auto_dispose_version"
+
+    // Timber
+    api "com.jakewharton.timber:timber:4.7.0"
+
+    // Stetho
+    api "com.facebook.stetho:stetho:1.5.0"
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

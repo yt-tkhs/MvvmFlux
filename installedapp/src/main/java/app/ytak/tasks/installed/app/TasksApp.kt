@@ -4,6 +4,7 @@ import app.ytak.tasks.base.data.di.DaggerDataComponent
 import app.ytak.tasks.base.data.di.DataComponent
 import app.ytak.tasks.installed.app.di.AppComponent
 import app.ytak.tasks.installed.app.di.DaggerAppComponent
+import com.facebook.stetho.Stetho
 import dagger.android.AndroidInjector
 import dagger.android.support.DaggerApplication
 import timber.log.Timber
@@ -18,6 +19,7 @@ class TasksApp : DaggerApplication() {
         super.onCreate()
         appComponent.inject(this)
         Timber.plant(Timber.DebugTree())
+        Stetho.initializeWithDefaults(this)
     }
 
     override fun applicationInjector(): AndroidInjector<out DaggerApplication> = appComponent

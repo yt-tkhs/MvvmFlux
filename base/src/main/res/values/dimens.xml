@@ -7,4 +7,10 @@
     <dimen name="margin_x_small">8dp</dimen>
     <dimen name="margin_xx_small">4dp</dimen>
     <dimen name="margin_xxx_small">2dp</dimen>
+
+    <dimen name="text_x_large">24sp</dimen>
+    <dimen name="text_large">18sp</dimen>
+    <dimen name="text_medium">14sp</dimen>
+    <dimen name="text_small">12sp</dimen>
+    <dimen name="text_x_small">10sp</dimen>
 </resources>

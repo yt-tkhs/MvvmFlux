@@ -9,7 +9,7 @@ import io.reactivex.Flowable
 import io.reactivex.functions.Function
 import io.reactivex.processors.PublishProcessor
 
-abstract class SqlDao<T> protected constructor(protected val db: BriteDatabase) {
+abstract class SqlDao<T : SqlDao.Dto> protected constructor(protected val db: BriteDatabase) {
 
     companion object {
         const val TRUE = 1
@@ -23,15 +23,15 @@ abstract class SqlDao<T> protected constructor(protected val db: BriteDatabase) 
     protected val emptyFlowable = PublishProcessor.create<Unit>()
 
     private val mapFunc = Function<SqlBrite.Query, List<T>> { query ->
-        val cursor = query.run()?.let { SqlCursor(it) }
-        cursor?.use {
+        val c = query.run() ?: return@Function null
+        val cursor = SqlCursor(c)
+        cursor.use {
             val values = mutableListOf<T>()
             while (cursor.moveToNext()) {
                 values.add(toObject(cursor))
             }
             return@Function values
         }
-        return@Function null
     }
 
     abstract fun toObject(cursor: SqlCursor): T
@@ -54,15 +54,17 @@ abstract class SqlDao<T> protected constructor(protected val db: BriteDatabase) 
     }
 
     protected fun createQuery(table: String, sql: String, vararg args: String): Flowable<List<T>> {
-        return db.createQuery(table, sql, args).map(mapFunc).toFlowable(BackpressureStrategy.LATEST)
+        return db.createQuery(table, sql, *args).map(mapFunc).toFlowable(BackpressureStrategy.LATEST)
     }
 
     protected fun insert(table: String, obj: T): Long {
         return db.insert(table, SQLiteDatabase.CONFLICT_REPLACE, toContentValues(obj))
     }
 
-    protected fun insert(table: String, obj: T, conflictAlgorithm: Int): Long {
-        return db.insert(table, conflictAlgorithm, toContentValues(obj))
+    protected fun upsert(table: String, obj: T, whereClause: String, vararg whereArgs: String): Long {
+        val row = db.update(table, SQLiteDatabase.CONFLICT_REPLACE, toContentValues(obj), whereClause, *whereArgs)
+        return if (row >= 1) row.toLong()
+        else db.insert(table, SQLiteDatabase.CONFLICT_REPLACE, toContentValues(obj))
     }
 
     protected fun delete(table: String, whereClause: String, vararg whereArgs: String): Int {
@@ -72,5 +74,4 @@ abstract class SqlDao<T> protected constructor(protected val db: BriteDatabase) 
     protected fun deleteAll(table: String): Int {
         return db.delete(table, "")
     }
-
 }

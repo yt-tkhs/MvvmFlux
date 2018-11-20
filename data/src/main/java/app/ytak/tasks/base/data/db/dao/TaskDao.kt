@@ -10,11 +10,16 @@ import app.ytak.tasks.base.data.util.optional
 import app.ytak.tasks.common.model.Task
 import com.squareup.sqlbrite3.BriteDatabase
 import io.reactivex.Flowable
+import io.reactivex.schedulers.Schedulers
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class TaskDao @Inject constructor(db: BriteDatabase) : SqlDao<TaskDao.Dto>(db) {
+class TaskDao @Inject constructor(
+    db: BriteDatabase,
+    private val jsonConverter: JsonConverter
+) : SqlDao<TaskDao.Dto>(db) {
 
     object Columns {
         const val ID = "id"
@@ -34,7 +39,7 @@ class TaskDao @Inject constructor(db: BriteDatabase) : SqlDao<TaskDao.Dto>(db) {
         fun createTable(db: SupportSQLiteDatabase) = db.execSQL(
             """
             CREATE TABLE $TABLE_NAME (
-                ${Columns.ID} INTEGER PRIMARY KEY,
+                ${Columns.ID} INTEGER NOT NULL PRIMARY KEY,
                 ${Columns.TASK_ID} TEXT NOT NULL UNIQUE,
                 ${Columns.JSON} TEXT NOT NULL
             )
@@ -49,7 +54,6 @@ class TaskDao @Inject constructor(db: BriteDatabase) : SqlDao<TaskDao.Dto>(db) {
     )
 
     override fun toContentValues(dto: Dto): ContentValues = ContentValues().apply {
-        put(Columns.ID, dto.id)
         put(Columns.TASK_ID, dto.taskId)
         put(Columns.JSON, dto.json)
     }
@@ -58,7 +62,8 @@ class TaskDao @Inject constructor(db: BriteDatabase) : SqlDao<TaskDao.Dto>(db) {
         db.newTransaction().run {
             try {
                 deleteAll(TABLE_NAME)
-                if (tasks.isNotEmpty()) tasks.forEach { upsert(it) }
+                Timber.d("yt/ replaceAll: tasks=${tasks.size}")
+                if (tasks.isNotEmpty()) tasks.forEach { insert(TABLE_NAME, it.toDto()) }
                 else emptyFlowable.onNext(Unit)
                 markSuccessful()
             } finally {
@@ -67,17 +72,19 @@ class TaskDao @Inject constructor(db: BriteDatabase) : SqlDao<TaskDao.Dto>(db) {
         }
     }
 
-    fun upsert(task: Task) = insert(TABLE_NAME, task.toDto())
+    fun upsert(task: Task) = upsert(TABLE_NAME, task.toDto(), "${Columns.TASK_ID}=?", task.id)
 
     fun delete(taskId: String) = delete(TABLE_NAME, "${Columns.TASK_ID}=?", taskId)
 
     fun find(taskId: String) = createQuery(TABLE_NAME, "SELECT * FROM $TABLE_NAME WHERE ${Columns.TASK_ID}=?", taskId)
-        .map { dto -> dto.mapNotNull { JsonConverter.fromJson<Task>(it.json) }.firstOrNull().optional() }
+        .map { dto -> dto.mapNotNull { jsonConverter.fromJson(it.json, Task::class.java) }.firstOrNull().optional() }
         .mergeWith(emptyFlowable.map { Optional.empty<Task>() })
+        .subscribeOn(Schedulers.io())
 
     fun findAll(): Flowable<List<Task>> = createQuery(TABLE_NAME, "SELECT * FROM $TABLE_NAME")
-        .map { dto -> dto.mapNotNull { JsonConverter.fromJson<Task>(it.json) } }
+        .map { dto -> dto.mapNotNull { jsonConverter.fromJson(it.json, Task::class.java) } }
         .mergeWith(emptyFlowable.map { emptyList<Task>() })
+        .subscribeOn(Schedulers.io())
 
-    private fun Task.toDto() = Dto(id, JsonConverter.toJson(this))
+    private fun Task.toDto() = Dto(id, jsonConverter.toJson(this))
 }

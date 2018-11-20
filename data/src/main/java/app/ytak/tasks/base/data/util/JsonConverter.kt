@@ -1,12 +1,15 @@
 package app.ytak.tasks.base.data.util
 
-import com.jsoniter.JsonIterator
-import com.jsoniter.output.JsonStream
+import com.squareup.moshi.Moshi
+import javax.inject.Inject
+import javax.inject.Singleton
 
-object JsonConverter {
+@Singleton
+class JsonConverter @Inject constructor(private val moshi: Moshi) {
 
-    inline fun <reified T> fromJson(json: String) =
-        JsonIterator.deserialize(json, T::class.java)
+    fun <T : Any> fromJson(json: String, type: Class<T>): T =
+        moshi.adapter<T>(type).fromJson(json)
+            ?: throw IllegalArgumentException("Failed to parse json")
 
-    fun toJson(obj: Any) = JsonStream.serialize(obj)
+    fun toJson(obj: Any): String = moshi.adapter<Any>(Any::class.java).toJson(obj)
 }
