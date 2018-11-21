@@ -1,0 +1,73 @@
+ext {
+    versions = [
+            kotlin        : '1.3.10',
+            coroutines    : '1.0.1',
+            supportLibrary: '28.0.0',
+            navigation    : '1.0.0-alpha07',
+            autoDispose   : '1.0.0',
+            groupie       : '2.1.0',
+            sqlBrite      : '3.2.0',
+            persistence   : '1.1.1',
+            moshi         : '1.8.0',
+            dagger        : '2.19'
+    ]
+
+    // Kotlin
+    kotlinStdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$versions.kotlin"
+    coroutines = "org.jetbrains.kotlinx:kotlinx-coroutines-core:$versions.coroutines"
+    coroutinesAndroid = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$versions.coroutines"
+    coroutinesReactive = "org.jetbrains.kotlinx:kotlinx-coroutines-reactive:$versions.coroutines"
+
+    // Support Library
+    supportAppCompat = "com.android.support:appcompat-v7:$versions.supportLibrary"
+    supportDesign = "com.android.support:design:$versions.supportLibrary"
+    supportConstraint = "com.android.support.constraint:constraint-layout:1.1.3"
+    supportRecyclerView = "com.android.support:recyclerview-v7:$versions.supportLibrary"
+    supportAvd = "com.android.support:animated-vector-drawable:$versions.supportLibrary"
+
+    // Navigation Architecture Component
+    navigationFragment = "android.arch.navigation:navigation-fragment-ktx:$versions.navigation"
+    navigationUi = "android.arch.navigation:navigation-ui-ktx:$versions.navigation"
+
+    // Dagger
+    daggerCore = "com.google.dagger:dagger:$versions.dagger"
+    daggerCompiler = "com.google.dagger:dagger-compiler:$versions.dagger"
+    daggerAndroid = "com.google.dagger:dagger-android:$versions.dagger"
+    daggerAndroidSupport = "com.google.dagger:dagger-android-support:$versions.dagger"
+    daggerAndroidProcessor = "com.google.dagger:dagger-android-processor:$versions.dagger"
+    jsr305 = "com.google.code.findbugs:jsr305:3.0.2"
+
+    // Rx
+    rxJava = "io.reactivex.rxjava2:rxjava:2.2.0"
+    rxAndroid = "io.reactivex.rxjava2:rxandroid:2.1.0"
+    rxKotlin = "io.reactivex.rxjava2:rxkotlin:2.2.0"
+
+    // AutoDispose
+    autoDisposeCore = "com.uber.autodispose:autodispose-ktx:$versions.autoDispose"
+    autoDisposeAndroid = "com.uber.autodispose:autodispose-android-ktx:$versions.autoDispose"
+    autoDisposeArch = "com.uber.autodispose:autodispose-android-archcomponents-ktx:$versions.autoDispose"
+
+    // SQLBrite
+    sqlBrite = "com.squareup.sqlbrite3:sqlbrite-kotlin:$versions.sqlBrite"
+
+    // Persistence
+    archPersistence = "android.arch.persistence:db:$versions.persistence"
+    archPersistenceFramework = "android.arch.persistence:db-framework:$versions.persistence"
+
+    // Moshi
+    moshi = "com.squareup.moshi:moshi:$versions.moshi"
+    moshiCodeGen = "com.squareup.moshi:moshi-kotlin-codegen:$versions.moshi"
+
+    // Groupie
+    groupie = "com.xwray:groupie:$versions.groupie"
+    groupieAndroidExtensions = "com.xwray:groupie-kotlin-android-extensions:$versions.groupie"
+
+    // Debug
+    timber = "com.jakewharton.timber:timber:4.7.0"
+    stetho = "com.facebook.stetho:stetho:1.5.0"
+
+    // Test
+    junit = "junit:junit:4.12"
+    supportTestRunner = "com.android.support.test:runner:1.0.2"
+    supportTestEspresso = "com.android.support.test.espresso:espresso-core:3.0.2"
+}

@@ -3,16 +3,15 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion compileSdk
 
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion minSdk
+        targetSdkVersion targetSdk
+        versionCode versionCode
+        versionName versionName
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
     }
 }
 
@@ -22,28 +21,23 @@ dependencies {
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    // kotlin
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    kapt daggerCompiler
+    kapt daggerAndroidProcessor
 
-    // google/dagger
-    kapt "com.google.dagger:dagger-compiler:$dagger_version"
-    kapt "com.google.dagger:dagger-android-processor:$dagger_version"
-
-    api "com.squareup.sqlbrite3:sqlbrite:$sqlbrite_version"
-    api "com.squareup.sqlbrite3:sqlbrite-kotlin:$sqlbrite_version"
+    api sqlBrite
 
     // persistence
-    implementation "android.arch.persistence:db:$persistence_version"
-    implementation "android.arch.persistence:db-framework:$persistence_version"
+    implementation archPersistence
+    implementation archPersistenceFramework
 
     // Moshi
     // TODO: common で annotaiton が使えたらcommonでcodegenを使いたい
-    implementation "com.squareup.moshi:moshi:$moshi_version"
-//    kapt "com.squareup.moshi:moshi-kotlin-codegen:$moshi_version"
+    implementation moshi
+//    kapt moshiCodeGen
 
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    testImplementation junit
+    androidTestImplementation supportTestRunner
+    androidTestImplementation supportTestEspresso
 }
 repositories {
     mavenCentral()
