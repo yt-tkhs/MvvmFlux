@@ -11,7 +11,7 @@ android {
         versionCode versionCode
         versionName versionName
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 }
 
@@ -19,16 +19,14 @@ dependencies {
     implementation project(':base')
     api project(':common')
 
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-
     kapt daggerCompiler
     kapt daggerAndroidProcessor
 
     api sqlBrite
 
     // persistence
-    implementation archPersistence
-    implementation archPersistenceFramework
+    implementation androidxSQLite
+    implementation androidxSQLiteFramework
 
     // Moshi
     // TODO: common で annotaiton が使えたらcommonでcodegenを使いたい
@@ -36,8 +34,8 @@ dependencies {
 //    kapt moshiCodeGen
 
     testImplementation junit
-    androidTestImplementation supportTestRunner
-    androidTestImplementation supportTestEspresso
+    androidTestImplementation androidxTestRunner
+    androidTestImplementation androidxTestEspresso
 }
 repositories {
     mavenCentral()

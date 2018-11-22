@@ -1,6 +1,6 @@
 package app.ytak.tasks.base.data.db.dao
 
-import android.arch.persistence.db.SupportSQLiteDatabase
+import androidx.sqlite.db.SupportSQLiteDatabase
 import android.content.ContentValues
 import app.ytak.tasks.base.data.util.JsonConverter
 import app.ytak.tasks.base.data.util.Optional

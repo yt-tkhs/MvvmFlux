@@ -12,7 +12,7 @@ android {
         versionCode versionCode
         versionName versionName
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 }
 
@@ -29,6 +29,6 @@ dependencies {
     implementation groupieAndroidExtensions
 
     testImplementation junit
-    androidTestImplementation supportTestRunner
-    androidTestImplementation supportTestEspresso
+    androidTestImplementation androidxTestRunner
+    androidTestImplementation androidxTestEspresso
 }

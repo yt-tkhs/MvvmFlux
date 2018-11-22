@@ -1,8 +1,8 @@
 package app.ytak.tasks.feature.tasklist
 
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleObserver
-import android.arch.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
 import app.ytak.tasks.base.data.flux.action.TaskAction
 import app.ytak.tasks.base.data.flux.store.TaskStore
 import app.ytak.tasks.base.di.scope.PerFragmentScope

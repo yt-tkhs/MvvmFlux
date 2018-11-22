@@ -2,24 +2,25 @@ package app.ytak.tasks.feature.tasklist
 
 import android.content.Context
 import android.os.Bundle
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.SimpleItemAnimator
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.SimpleItemAnimator
 import app.ytak.tasks.feature.tasklist.item.TaskItem
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDisposable
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Section
 import com.xwray.groupie.ViewHolder
-import dagger.android.support.DaggerFragment
+import dagger.android.support.AndroidSupportInjection
 import io.reactivex.android.schedulers.AndroidSchedulers
 import kotlinx.android.synthetic.main.fragment_task_list.recyclerView
 import javax.inject.Inject
 
-class TaskListFragment : DaggerFragment() {
+class TaskListFragment : Fragment() {
 
     @Inject lateinit var viewModel: TaskListViewModel
 
@@ -28,6 +29,7 @@ class TaskListFragment : DaggerFragment() {
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
+        AndroidSupportInjection.inject(this)
         lifecycle.addObserver(viewModel)
     }
 

@@ -2,15 +2,15 @@ apply plugin: 'com.android.feature'
 apply plugin: 'kotlin-android'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion compileSdk
 
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion minSdk
+        targetSdkVersion targetSdk
+        versionCode versionCode
+        versionName versionName
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 }
 
@@ -18,8 +18,8 @@ dependencies {
     implementation project(':base')
 
     testImplementation junit
-    androidTestImplementation supportTestRunner
-    androidTestImplementation supportTestEspresso
+    androidTestImplementation androidxTestRunner
+    androidTestImplementation androidxTestEspresso
 }
 repositories {
     mavenCentral()

@@ -10,7 +10,7 @@ android {
         versionCode versionCode
         versionName versionName
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         debug {
@@ -34,17 +34,18 @@ dependencies {
     api coroutinesReactive
 
     // Support Library
-    api supportAppCompat
-    api supportDesign
-    api supportRecyclerView
-    api supportConstraint
-    api supportAvd
+    api androidxAppCompat
+    api material
+    api androidxRecyclerView
+    api androidxConstraint
+    api androidxAvd
 
     // google/dagger
     api daggerCore
     api daggerAndroid
     api daggerAndroidSupport
     api jsr305
+    api javaPoet
 
     // Rx
     api rxJava
@@ -60,6 +61,6 @@ dependencies {
 
     // Test
     testImplementation junit
-    androidTestImplementation supportTestRunner
-    androidTestImplementation supportTestEspresso
+    androidTestImplementation androidxTestRunner
+    androidTestImplementation androidxTestEspresso
 }
