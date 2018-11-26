@@ -2,6 +2,7 @@ apply plugin: 'com.android.feature'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'androidx.navigation.safeargs'
 
 android {
     compileSdkVersion compileSdk
@@ -18,7 +19,9 @@ android {
 
 dependencies {
     implementation project(':base')
+    implementation project(':data')
     implementation project(':tasklist')
+    implementation project(':taskdetail')
 
     kapt daggerCompiler
     kapt daggerAndroidProcessor

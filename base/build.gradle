@@ -17,6 +17,11 @@ android {
 
 dependencies {
     application project(':installed')
+    feature project(":common")
+    feature project(":data")
+    feature project(":installedapp")
+    feature project(":taskdetail")
+    feature project(":tasklist")
 
     // Kotlin
     api kotlinStdlib

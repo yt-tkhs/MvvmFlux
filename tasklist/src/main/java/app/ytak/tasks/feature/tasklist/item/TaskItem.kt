@@ -8,7 +8,11 @@ import kotlinx.android.synthetic.main.item_task.view.descriptionText
 import kotlinx.android.synthetic.main.item_task.view.doneCheckBox
 import kotlinx.android.synthetic.main.item_task.view.titleText
 
-class TaskItem(private val task: Task, private val onCheckedChange: (Boolean) -> Unit) : Item(task.id.hashCode().toLong()) {
+class TaskItem(
+    private val task: Task,
+    private val onClick: () -> Unit,
+    private val onCheckedChange: (Boolean) -> Unit
+) : Item(task.id.hashCode().toLong()) {
 
     private var isChecked = task.isDone
 
@@ -22,5 +26,6 @@ class TaskItem(private val task: Task, private val onCheckedChange: (Boolean) ->
             this@TaskItem.isChecked = isChecked
             onCheckedChange(isChecked)
         }
+        setOnClickListener { onClick() }
     }
 }

@@ -9,4 +9,6 @@ import javax.inject.Singleton
 class TaskStore @Inject constructor(private val dispatcher: TaskDispatcher) : CommonStore(dispatcher) {
 
     fun tasks() = dispatcher.taskDao.findAll()
+
+    fun task(taskId: String) = dispatcher.taskDao.find(taskId)
 }

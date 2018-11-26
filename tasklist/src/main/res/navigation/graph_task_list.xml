@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation android:id="@+id/graph_task_list"
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            app:startDestination="@id/taskList"
+    >
+
+    <fragment
+        android:id="@+id/taskList"
+        android:name="app.ytak.tasks.feature.tasklist.TaskListFragment"
+        />
+
+</navigation>

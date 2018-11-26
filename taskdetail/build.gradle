@@ -20,10 +20,6 @@ android {
 dependencies {
     implementation project(':base')
     implementation project(':data')
-    implementation project(':taskdetail')
-
-    kapt daggerCompiler
-    kapt daggerAndroidProcessor
 
     implementation navigationFragment
     implementation navigationUi

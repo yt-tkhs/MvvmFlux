@@ -6,9 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
+import app.ytak.tasks.feature.taskdetail.TaskDetailFragmentArgs
 import app.ytak.tasks.feature.tasklist.item.TaskItem
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDisposable
@@ -22,10 +24,12 @@ import javax.inject.Inject
 
 class TaskListFragment : Fragment() {
 
-    @Inject lateinit var viewModel: TaskListViewModel
+    private val navController by lazy(this::findNavController)
 
     private val adapter = GroupAdapter<ViewHolder>()
     private val section = Section().also(adapter::add)
+
+    @Inject lateinit var viewModel: TaskListViewModel
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
@@ -50,9 +54,14 @@ class TaskListFragment : Fragment() {
             .autoDisposable(scope())
             .subscribe { tasks ->
                 section.update(tasks.map { task ->
-                    TaskItem(task) { isChecked ->
+                    TaskItem(task, {
+                        navController.navigate(
+                            R.id.graph_task_detail,
+                            TaskDetailFragmentArgs.Builder(task.id).build().toBundle()
+                        )
+                    }, { isChecked ->
                         viewModel.updateDoneStatus(task.id, isChecked)
-                    }
+                    })
                 })
             }
     }

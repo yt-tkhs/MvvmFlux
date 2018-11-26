@@ -1,1 +1,1 @@
-include ':base', ':installed', ':tasklist', ':installedapp', ':data', ':common'
+include ':base', ':installed', ':tasklist', ':installedapp', ':data', ':common', ':taskdetail'

@@ -22,6 +22,12 @@ class TaskAction @Inject constructor(private val dispatcher: TaskDispatcher) {
         dispatcher.taskDao.replaceAll(tasks)
     }
 
+    fun refreshTask(taskId: String) = GlobalScope.launch {
+        // TODO: Call API
+        val task = dispatcher.taskDao.find(taskId).filterOptionalNotNull().awaitFirst()
+        dispatcher.taskDao.upsert(task)
+    }
+
     fun createTask(task: Task) = GlobalScope.launch {
         // TODO: Call API
         dispatcher.taskDao.upsert(task)

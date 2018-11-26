@@ -6,9 +6,9 @@ import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
 @Module
-abstract class ActivityModule {
+interface ActivityModule {
 
     @PerActivityScope
     @ContributesAndroidInjector(modules = [MainActivityModule::class])
-    internal abstract fun contributeMainActivity(): MainActivity
+    fun contributeMainActivity(): MainActivity
 }
