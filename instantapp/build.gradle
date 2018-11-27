@@ -1,0 +1,33 @@
+apply plugin: 'com.android.feature'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
+
+android {
+    compileSdkVersion compileSdk
+
+    defaultConfig {
+        minSdkVersion minSdk
+        targetSdkVersion targetSdk
+        versionCode versionCode
+        versionName versionName
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+}
+
+dependencies {
+    implementation project(':base')
+    implementation project(':data')
+    implementation project(':taskdetail')
+
+    kapt daggerCompiler
+    kapt daggerAndroidProcessor
+
+    implementation navigationFragment
+    implementation navigationUi
+
+    testImplementation junit
+    androidTestImplementation androidxTestRunner
+    androidTestImplementation androidxTestEspresso
+}

@@ -2,6 +2,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'androidx.navigation.safeargs'
 
 android {
+    rootProject.ext.set("isInstalled", true)
+
     compileSdkVersion compileSdk
 
     defaultConfig {

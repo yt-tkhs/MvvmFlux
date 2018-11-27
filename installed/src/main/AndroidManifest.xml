@@ -5,6 +5,6 @@
 
     <application
         android:name=".installed.app.TasksApp"
-        tools:replace="name"
+        tools:ignore="GoogleAppIndexingWarning"
         />
 </manifest>

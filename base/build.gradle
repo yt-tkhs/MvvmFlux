@@ -12,16 +12,26 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
     baseFeature = true
 }
 
 dependencies {
-    application project(':installed')
     feature project(":common")
     feature project(":data")
-    feature project(":installedapp")
-    feature project(":taskdetail")
-    feature project(":tasklist")
+
+    if (hasProperty("isInstalled")) {
+        application project(':installed')
+        feature project(":installedapp")
+        feature project(":taskdetail")
+        feature project(":tasklist")
+    } else {
+        feature project(":instantapp")
+        feature project(":taskdetail")
+    }
 
     // Kotlin
     api kotlinStdlib

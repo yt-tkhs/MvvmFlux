@@ -1,0 +1,13 @@
+apply plugin: 'com.android.instantapp'
+
+android {
+    rootProject.ext.set("isInstalled", false)
+
+    compileSdkVersion compileSdk
+}
+
+dependencies {
+    implementation project(':base')
+    implementation project(':data')
+    implementation project(':instantapp')
+}
