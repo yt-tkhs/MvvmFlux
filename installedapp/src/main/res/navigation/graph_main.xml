@@ -7,6 +7,4 @@
 
     <include app:graph="@navigation/graph_task_list" />
 
-    <include app:graph="@navigation/graph_task_detail" />
-
 </navigation>

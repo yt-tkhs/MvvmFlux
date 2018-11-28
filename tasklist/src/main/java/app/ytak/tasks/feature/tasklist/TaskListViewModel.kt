@@ -6,13 +6,14 @@ import androidx.lifecycle.OnLifecycleEvent
 import app.ytak.tasks.base.data.flux.action.TaskAction
 import app.ytak.tasks.base.data.flux.store.TaskStore
 import app.ytak.tasks.base.di.scope.PerFragmentScope
+import app.ytak.tasks.feature.taskdetail.TaskLoader
 import javax.inject.Inject
 
 @PerFragmentScope
 class TaskListViewModel @Inject constructor(
-    private val taskAction: TaskAction,
+    override val taskAction: TaskAction,
     private val taskStore: TaskStore
-) : LifecycleObserver {
+) : TaskLoader(), LifecycleObserver {
 
     val tasks by lazy { taskStore.tasks() }
 

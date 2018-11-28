@@ -2,6 +2,7 @@ package app.ytak.tasks.base.data.flux.action
 
 import app.ytak.tasks.base.data.flux.dispatcher.TaskDispatcher
 import app.ytak.tasks.base.data.util.ext.filterOptionalNotNull
+import app.ytak.tasks.base.data.util.optional
 import app.ytak.tasks.common.model.Task
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -22,10 +23,9 @@ class TaskAction @Inject constructor(private val dispatcher: TaskDispatcher) {
         dispatcher.taskDao.replaceAll(tasks)
     }
 
-    fun refreshTask(taskId: String) = GlobalScope.launch {
+    fun loadTask(taskId: String) = GlobalScope.launch {
         // TODO: Call API
-        val task = dispatcher.taskDao.find(taskId).filterOptionalNotNull().awaitFirst()
-        dispatcher.taskDao.upsert(task)
+        dispatcher.currentTask.onNext(Task(taskId, "タスクA", "1つ目のタスクです", false).optional())
     }
 
     fun createTask(task: Task) = GlobalScope.launch {

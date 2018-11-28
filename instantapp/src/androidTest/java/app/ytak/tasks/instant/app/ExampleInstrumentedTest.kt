@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getTargetContext()
-        assertEquals("app.ytak.tasks.instant.app.test", appContext.packageName)
+        assertEquals("app.ytak.currentTask.instant.app.test", appContext.packageName)
     }
 }

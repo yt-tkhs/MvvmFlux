@@ -6,4 +6,24 @@
 
     <color name="text_primary_black">#000000</color>
     <color name="text_secondary_black">#666666</color>
+
+    <color name="white_alpha10">#1effffff</color>
+    <color name="white_alpha20">#3fffffff</color>
+    <color name="white_alpha30">#4dffffff</color>
+    <color name="white_alpha40">#66ffffff</color>
+    <color name="white_alpha50">#80ffffff</color>
+    <color name="white_alpha60">#9fffffff</color>
+    <color name="white_alpha70">#b3ffffff</color>
+    <color name="white_alpha80">#cfffffff</color>
+    <color name="white_alpha90">#e6ffffff</color>
+
+    <color name="black_alpha10">#1a000000</color>
+    <color name="black_alpha15">#26000000</color>
+    <color name="black_alpha20">#30000000</color>
+    <color name="black_alpha30">#4d000000</color>
+    <color name="black_alpha40">#66000000</color>
+    <color name="black_alpha50">#80000000</color>
+    <color name="black_alpha60">#90000000</color>
+    <color name="black_alpha70">#b3000000</color>
+    <color name="black_alpha80">#cc000000</color>
 </resources>

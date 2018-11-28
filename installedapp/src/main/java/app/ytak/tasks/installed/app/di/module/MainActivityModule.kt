@@ -1,7 +1,6 @@
 package app.ytak.tasks.installed.app.di.module
 
 import app.ytak.tasks.base.di.scope.PerFragmentScope
-import app.ytak.tasks.feature.taskdetail.TaskDetailFragment
 import app.ytak.tasks.feature.tasklist.TaskListFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -12,8 +11,4 @@ interface MainActivityModule {
     @PerFragmentScope
     @ContributesAndroidInjector
     fun contributeTaskListFragment(): TaskListFragment
-
-    @PerFragmentScope
-    @ContributesAndroidInjector
-    fun contributeTaskDetailFragment(): TaskDetailFragment
 }

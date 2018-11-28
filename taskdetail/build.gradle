@@ -2,7 +2,6 @@ apply plugin: 'com.android.feature'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'androidx.navigation.safeargs'
 
 android {
     compileSdkVersion compileSdk
@@ -20,9 +19,6 @@ android {
 dependencies {
     implementation project(':base')
     implementation project(':data')
-
-    implementation navigationFragment
-    implementation navigationUi
 
     implementation groupie
     implementation groupieAndroidExtensions

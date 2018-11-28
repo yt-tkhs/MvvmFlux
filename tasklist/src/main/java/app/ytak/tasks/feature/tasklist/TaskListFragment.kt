@@ -6,11 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.SimpleItemAnimator
-import app.ytak.tasks.feature.taskdetail.TaskDetailFragmentArgs
 import app.ytak.tasks.feature.tasklist.item.TaskItem
 import com.uber.autodispose.android.lifecycle.scope
 import com.uber.autodispose.autoDisposable
@@ -23,8 +21,6 @@ import kotlinx.android.synthetic.main.fragment_task_list.recyclerView
 import javax.inject.Inject
 
 class TaskListFragment : Fragment() {
-
-    private val navController by lazy(this::findNavController)
 
     private val adapter = GroupAdapter<ViewHolder>()
     private val section = Section().also(adapter::add)
@@ -55,10 +51,7 @@ class TaskListFragment : Fragment() {
             .subscribe { tasks ->
                 section.update(tasks.map { task ->
                     TaskItem(task, {
-                        navController.navigate(
-                            R.id.graph_task_detail,
-                            TaskDetailFragmentArgs.Builder(task.id).build().toBundle()
-                        )
+                        viewModel.loadTask(task.id)
                     }, { isChecked ->
                         viewModel.updateDoneStatus(task.id, isChecked)
                     })

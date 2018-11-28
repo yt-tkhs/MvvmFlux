@@ -10,5 +10,5 @@ class TaskStore @Inject constructor(private val dispatcher: TaskDispatcher) : Co
 
     fun tasks() = dispatcher.taskDao.findAll()
 
-    fun task(taskId: String) = dispatcher.taskDao.find(taskId)
+    fun currentTask() = dispatcher.currentTask
 }
