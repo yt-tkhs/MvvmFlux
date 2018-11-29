@@ -25,7 +25,12 @@ class TaskAction @Inject constructor(private val dispatcher: TaskDispatcher) {
 
     fun loadTask(taskId: String) = GlobalScope.launch {
         // TODO: Call API
-        dispatcher.currentTask.onNext(Task(taskId, "タスクA", "1つ目のタスクです", false).optional())
+        val task = dispatcher.taskDao.find(taskId).filterOptionalNotNull().awaitFirst()
+        dispatcher.currentTask.onNext(task.optional())
+    }
+
+    fun updateCurrentTask(currentTask: Task) = GlobalScope.launch {
+        dispatcher.currentTask.onNext(currentTask.optional())
     }
 
     fun createTask(task: Task) = GlobalScope.launch {

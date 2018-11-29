@@ -43,6 +43,9 @@ dependencies {
     api coroutines
     api coroutinesAndroid
     api coroutinesReactive
+    
+    // Instant Apps
+    api instantApps
 
     // Support Library
     api androidxAppCompat
@@ -50,6 +53,9 @@ dependencies {
     api androidxRecyclerView
     api androidxConstraint
     api androidxAvd
+
+    // Android Architecture Components
+    api aacViewModel
 
     // google/dagger
     api daggerCore

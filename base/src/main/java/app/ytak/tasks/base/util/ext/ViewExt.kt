@@ -1,6 +1,7 @@
 package app.ytak.tasks.base.util.ext
 
 import android.view.View
+import android.view.ViewTreeObserver
 
 fun View.isVisible() = visibility == View.VISIBLE
 
@@ -22,4 +23,14 @@ fun View.toInvisible() {
 
 fun View.toGone() {
     visibility = View.GONE
+}
+
+inline fun View.onPreDraw(crossinline handler: () -> Unit) {
+    viewTreeObserver.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener {
+        override fun onPreDraw(): Boolean {
+            viewTreeObserver.removeOnPreDrawListener(this)
+            handler()
+            return true
+        }
+    })
 }

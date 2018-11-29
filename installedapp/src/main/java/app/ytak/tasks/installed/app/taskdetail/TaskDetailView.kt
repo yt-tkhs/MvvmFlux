@@ -3,32 +3,44 @@ package app.ytak.tasks.installed.app.taskdetail
 import android.content.Context
 import android.util.AttributeSet
 import android.view.KeyEvent
-import android.view.ViewTreeObserver
 import app.ytak.tasks.base.util.ext.observeOnMain
+import app.ytak.tasks.base.util.ext.onPreDraw
+import app.ytak.tasks.common.model.Task
 import app.ytak.tasks.feature.taskdetail.BaseTaskDetailView
-import timber.log.Timber
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.reactive.awaitFirst
 import javax.inject.Inject
 
 class TaskDetailView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0) :
     BaseTaskDetailView(context, attrs, defStyle) {
 
-    private val behavior by lazy { TaskDetailBehavior(this) }
+    private val behavior = TaskDetailBehavior(this)
 
     @Inject lateinit var viewModel: TaskDetailViewModel
 
     override fun onAttachedToWindow() {
         super.onAttachedToWindow()
-        viewTreeObserver.addOnPreDrawListener(object : ViewTreeObserver.OnPreDrawListener {
-            override fun onPreDraw(): Boolean {
-                viewTreeObserver.removeOnPreDrawListener(this)
-                behavior.toNone(true)
-                return true
+        onPreDraw { behavior.toNone(true) }
+
+        behavior.onStateChange = { viewModel.setViewerState(it) }
+
+        closeButton.setOnClickListener {
+            GlobalScope.launch(Dispatchers.Main) {
+                when (viewModel.viewerState().awaitFirst()) {
+                    ViewerState.NORMAL -> behavior.toMini()
+                    ViewerState.MINI -> behavior.toNone(false)
+                    else -> {
+                        /* no op */
+                    }
+                }
             }
-        })
-        viewModel.currentTask.observeOnMain(this) {
-            Timber.d("yt/ currentTask observeOnMain: $it")
-            currentTask = it
-            behavior.toNormal()
+        }
+
+        viewModel.currentTask.observeOnMain(this) { task ->
+            if (currentTask?.id != task.id || currentTask?.isDone == task.isDone) behavior.toNormal()
+            currentTask = task
         }
 
         isFocusableInTouchMode = true
@@ -40,5 +52,9 @@ class TaskDetailView @JvmOverloads constructor(context: Context, attrs: Attribut
             }
             return@setOnKeyListener false
         }
+    }
+
+    override fun onCheckedChange(task: Task, isChecked: Boolean) {
+        viewModel.updateDoneStatus(task.id, isChecked)
     }
 }

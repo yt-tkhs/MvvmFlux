@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
+import android.widget.ImageButton
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -13,18 +14,20 @@ import app.ytak.tasks.feature.taskdetail.item.HeaderItem
 import com.xwray.groupie.GroupAdapter
 import com.xwray.groupie.Section
 import com.xwray.groupie.ViewHolder
+import kotlinx.android.synthetic.main.view_task_detail.view.closeButton
 import kotlinx.android.synthetic.main.view_task_detail.view.mainLayout
 import kotlinx.android.synthetic.main.view_task_detail.view.recyclerView
 import kotlinx.android.synthetic.main.view_task_detail.view.shadowView
 import timber.log.Timber
 
-open class BaseTaskDetailView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0) :
+abstract class BaseTaskDetailView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0) :
     ConstraintLayout(context, attrs, defStyle) {
 
     var currentTask: Task? = null
-        set(value) = setTaskInternal(value)
-
-    var onCheckedChangeListener: ((Task, Boolean) -> Unit)? = null
+        set(value) {
+            field = value
+            setTaskInternal(value)
+        }
 
     private val adapter = GroupAdapter<ViewHolder>()
     private val section = Section().also(adapter::add)
@@ -32,6 +35,7 @@ open class BaseTaskDetailView @JvmOverloads constructor(context: Context, attrs:
     val mainLayout: ConstraintLayout by lazy { rootView.mainLayout }
     val recyclerView: RecyclerView by lazy { rootView.recyclerView }
     val shadowView: View by lazy { rootView.shadowView }
+    val closeButton: ImageButton by lazy { rootView.closeButton }
 
     init {
         LayoutInflater.from(context).inflate(R.layout.view_task_detail, this, true)
@@ -41,7 +45,7 @@ open class BaseTaskDetailView @JvmOverloads constructor(context: Context, attrs:
         }
     }
 
-    protected fun setTaskInternal(task: Task?) {
+    private fun setTaskInternal(task: Task?) {
         task ?: run {
             Timber.w("currentTask is null")
             section.update(listOf())
@@ -51,9 +55,13 @@ open class BaseTaskDetailView @JvmOverloads constructor(context: Context, attrs:
             listOf(
                 HeaderItem(task),
                 DoneSwitchItem(task) { isChecked ->
-                    onCheckedChangeListener?.invoke(task, isChecked)
+                    onCheckedChange(task, isChecked)
                 }
             )
         )
+    }
+
+    open fun onCheckedChange(task: Task, isChecked: Boolean) {
+        // no op
     }
 }
